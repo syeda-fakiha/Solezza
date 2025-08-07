@@ -1,0 +1,243 @@
+---
+---
+
+<header class="header">
+	<nav class="nav">
+		<div class="container">
+			<div class="nav-content">
+				<div class="nav-brand">
+					<a href="/" class="brand-link">
+						<span class="brand-text">Solezza</span>
+					</a>
+				</div>
+				
+				<div class="nav-links">
+					<a href="#home" class="nav-link">Home</a>
+					<a href="#products" class="nav-link">Products</a>
+					<a href="#about" class="nav-link">About</a>
+					<a href="#contact" class="nav-link">Contact</a>
+				</div>
+				
+				<div class="nav-actions">
+					<button class="btn btn-outline">Shop Now</button>
+				</div>
+				
+				<button class="mobile-menu-btn" id="mobileMenuBtn">
+					<span></span>
+					<span></span>
+					<span></span>
+				</button>
+			</div>
+		</div>
+	</nav>
+	
+	<div class="mobile-menu" id="mobileMenu">
+		<div class="mobile-menu-content">
+			<a href="#home" class="mobile-nav-link">Home</a>
+			<a href="#products" class="mobile-nav-link">Products</a>
+			<a href="#about" class="mobile-nav-link">About</a>
+			<a href="#contact" class="mobile-nav-link">Contact</a>
+			<button class="btn btn-primary mobile-shop-btn">Shop Now</button>
+		</div>
+	</div>
+</header>
+
+<style>
+	.header {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		background: rgba(255, 255, 255, 0.95);
+		backdrop-filter: blur(10px);
+		border-bottom: 1px solid var(--color-neutral-200);
+		z-index: 1000;
+		transition: all 0.3s ease;
+	}
+
+	.nav {
+		padding: var(--spacing-4) 0;
+	}
+
+	.nav-content {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.nav-brand {
+		display: flex;
+		align-items: center;
+	}
+
+	.brand-link {
+		display: flex;
+		align-items: center;
+		text-decoration: none;
+		color: var(--color-primary);
+	}
+
+	.brand-text {
+		font-family: var(--font-display);
+		font-size: 2rem;
+		font-weight: 600;
+		color: var(--color-primary);
+		background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+		letter-spacing: -0.02em;
+	}
+
+	.nav-links {
+		display: flex;
+		align-items: center;
+		gap: var(--spacing-8);
+	}
+
+	.nav-link {
+		text-decoration: none;
+		color: var(--color-neutral-700);
+		font-weight: 500;
+		transition: color 0.3s ease;
+		position: relative;
+	}
+
+	.nav-link:hover {
+		color: var(--color-primary);
+	}
+
+	.nav-link::after {
+		content: '';
+		position: absolute;
+		bottom: -4px;
+		left: 0;
+		width: 0;
+		height: 2px;
+		background: var(--color-primary);
+		transition: width 0.3s ease;
+	}
+
+	.nav-link:hover::after {
+		width: 100%;
+	}
+
+	.nav-actions {
+		display: flex;
+		align-items: center;
+		gap: var(--spacing-4);
+	}
+
+	.mobile-menu-btn {
+		display: none;
+		flex-direction: column;
+		background: none;
+		border: none;
+		cursor: pointer;
+		padding: var(--spacing-2);
+		gap: 4px;
+	}
+
+	.mobile-menu-btn span {
+		width: 24px;
+		height: 3px;
+		background: var(--color-neutral-700);
+		border-radius: 2px;
+		transition: all 0.3s ease;
+	}
+
+	.mobile-menu {
+		position: fixed;
+		top: 100%;
+		left: 0;
+		right: 0;
+		background: white;
+		border-bottom: 1px solid var(--color-neutral-200);
+		transform: translateY(-100%);
+		opacity: 0;
+		visibility: hidden;
+		transition: all 0.3s ease;
+		z-index: 999;
+	}
+
+	.mobile-menu.active {
+		transform: translateY(0);
+		opacity: 1;
+		visibility: visible;
+	}
+
+	.mobile-menu-content {
+		padding: var(--spacing-6);
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-4);
+	}
+
+	.mobile-nav-link {
+		text-decoration: none;
+		color: var(--color-neutral-700);
+		font-weight: 500;
+		padding: var(--spacing-3) 0;
+		border-bottom: 1px solid var(--color-neutral-200);
+		transition: color 0.3s ease;
+	}
+
+	.mobile-nav-link:hover {
+		color: var(--color-primary);
+	}
+
+	.mobile-shop-btn {
+		margin-top: var(--spacing-4);
+		width: 100%;
+	}
+
+	@media (max-width: 768px) {
+		.nav-links,
+		.nav-actions {
+			display: none;
+		}
+
+		.mobile-menu-btn {
+			display: flex;
+		}
+	}
+</style>
+
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+		const mobileMenu = document.getElementById('mobileMenu');
+		
+		if (mobileMenuBtn && mobileMenu) {
+			mobileMenuBtn.addEventListener('click', () => {
+				mobileMenu.classList.toggle('active');
+			});
+		}
+
+		// Close mobile menu when clicking on a link
+		const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+		mobileLinks.forEach(link => {
+			link.addEventListener('click', () => {
+				if (mobileMenu) {
+					mobileMenu.classList.remove('active');
+				}
+			});
+		});
+
+		// Header scroll effect
+		let lastScroll = 0;
+		const header = document.querySelector('.header');
+		
+		window.addEventListener('scroll', () => {
+			const currentScroll = window.pageYOffset;
+			
+			if (currentScroll > lastScroll && currentScroll > 100) {
+				header?.classList.add('scrolled-up');
+			} else {
+				header?.classList.remove('scrolled-up');
+			}
+			
+			lastScroll = currentScroll;
+		});
+	});
+</script>
